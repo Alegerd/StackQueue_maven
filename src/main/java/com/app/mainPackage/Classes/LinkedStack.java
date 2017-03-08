@@ -5,6 +5,7 @@ import com.app.mainPackage.Interfaces.IEnumerator;
 import com.app.mainPackage.Interfaces.IStack;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -27,21 +28,22 @@ public class LinkedStack<T> implements IStack<T> {
         return isEmpty;
     }
 
-    public IEnumerator getEnumerator() {
-        return new IEnumerator() {
-            public boolean MoveNext() {
-                return false;
-            }
-
-            public void Reset() {
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+            public void remove() {
 
             }
 
-            public Object getCurrent() {
-                return pop();
+            public boolean hasNext() {
+                return (myList.get(pointer++) != null);
+            }
+
+            public T next() {
+                return myList.get(pointer++);
             }
         };
     }
+
     public void push(T value) {
         pointer+=1;
         count++;

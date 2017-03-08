@@ -5,6 +5,7 @@ import com.app.mainPackage.Interfaces.IEnumerator;
 import com.app.mainPackage.Interfaces.IQueue;
 
 import java.lang.reflect.Array;
+import java.util.Iterator;
 
 /**
  * Created by alegerd on 19.02.17.
@@ -22,23 +23,23 @@ public class ArrayQueue<T> implements IQueue<T> {
         array = (T[]) Array.newInstance(element.getClass(), 0);
     }
 
-    public IEnumerator getEnumerator() {
-        return new IEnumerator() {
-            public boolean MoveNext() {
-                return false;
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+            public boolean hasNext() {
+                return (array[0] != null);
             }
 
-            public void Reset() {
-
+            public T next() {
+                return dequeue();
             }
 
-            public Object getCurrent() {
-                return Dequeue();
+            public void remove() {
+
             }
         };
     }
 
-    public void Enqueue(T value) {
+    public void enqueue(T value) {
         array = resize(array, array.length + 1);
         array[array.length - 1] = value;
         count++;
@@ -54,7 +55,7 @@ public class ArrayQueue<T> implements IQueue<T> {
         isEmpty = true;
     }
 
-    public T Dequeue() {
+    public T dequeue() {
         T chosenElement = array[0];
         try {
             array = remove(array);
@@ -71,14 +72,9 @@ public class ArrayQueue<T> implements IQueue<T> {
 
     public T peek() throws OutOfBordersException {
         T choosenElement = array[0];
-//        try {
         if (choosenElement == null) {
             throw new OutOfBordersException("Queue is empty");
         }
-//        }
-//        catch (OutOfBordersException ex){
-//            System.out.println(ex.getMessage());
-//        }
         return choosenElement;
     }
 

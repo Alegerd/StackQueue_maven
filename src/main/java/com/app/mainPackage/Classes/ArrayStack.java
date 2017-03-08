@@ -5,6 +5,7 @@ import com.app.mainPackage.Interfaces.IEnumerator;
 import com.app.mainPackage.Interfaces.IStack;
 
 import java.lang.reflect.Array;
+import java.util.Iterator;
 
 /**
  * Created by alegerd on 19.02.17.
@@ -20,13 +21,21 @@ public class ArrayStack<T> implements IStack<T> {
     int count = 0;
     public boolean isEmpty = true;
 
-/*    public void setArray(T[] value){
-        this.array = array;
-    }
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+            public void remove() {
 
-    public T[] getArray(){
-        return array;
-    }*/
+            }
+
+            public boolean hasNext() {
+                return (array[pointer++] != null);
+            }
+
+            public T next() {
+                return array[pointer++];
+            }
+        };
+    }
 
     public ArrayStack(T element){
         this.element = element;
@@ -36,25 +45,6 @@ public class ArrayStack<T> implements IStack<T> {
     public boolean isEmpty() {
         return isEmpty;
     }
-
-    public IEnumerator getEnumerator() {
-        return new IEnumerator() {
-            public boolean MoveNext() {
-                return false;
-            }
-
-            public void Reset() {
-
-            }
-
-            public Object getCurrent() {
-                return pop();
-            }
-        };
-    }
-
-
-
 
     public void push(T value) {
         array = resize(array,array.length + 1);//scaled length for 1 element

@@ -4,6 +4,7 @@ import com.app.mainPackage.Interfaces.IEnumerator;
 import com.app.mainPackage.Interfaces.IQueue;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -16,26 +17,23 @@ public class LinkedQueue<T> implements IQueue<T>{
     int count = 0;
     public boolean isEmpty = true;
 
-    public LinkedQueue(){
-    }
-
-    public IEnumerator getEnumerator() {
-        return new IEnumerator() {
-            public boolean MoveNext() {
-                return false;
-            }
-
-            public void Reset() {
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+            public void remove() {
 
             }
 
-            public Object getCurrent() {
-                return Dequeue();
+            public boolean hasNext() {
+                return (myList.get(0) != null);
+            }
+
+            public T next() {
+                return myList.get(0);
             }
         };
     }
 
-    public void Enqueue(T value) {
+    public void enqueue(T value) {
         count++;
         myList.add(value);
         isEmpty = false;
@@ -49,7 +47,7 @@ public class LinkedQueue<T> implements IQueue<T>{
         myList = new ArrayList<T>();
     }
 
-    public T Dequeue() {
+    public T dequeue() {
         T chosenElement = myList.remove(0);
         count--;
         if(count == 0) isEmpty = true;

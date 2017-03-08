@@ -5,11 +5,11 @@ import com.app.mainPackage.Exceptions.OutOfBordersException;
 /**
  * Created by alegerd on 19.02.17.
  */
-public interface IQueue<T> extends IEnumerable{
+public interface IQueue<T> extends Iterable<T>{
     //methods
-    void Enqueue(T value);
+    void enqueue(T value);
     void clear();
     boolean isEmpty();
-    T Dequeue();
+    T dequeue();
     T peek() throws OutOfBordersException;
 }
