@@ -8,7 +8,7 @@ import com.app.mainPackage.Exceptions.OutOfBordersException;
  */
 
 public interface IPriorityQueue<T,T2 extends Comparable> {
-    void enqueue (T value, T2 priority) throws NullObjectSendedException;
+    void enqueue (T value, T2 priority);
     T dequeue() throws OutOfBordersException;
     boolean isEmpty();
 }

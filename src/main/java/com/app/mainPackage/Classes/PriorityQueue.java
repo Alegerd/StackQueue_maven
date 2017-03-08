@@ -21,11 +21,7 @@ public class PriorityQueue<T, T2 extends Comparable> implements IPriorityQueue<T
 
     List<Node> list = new ArrayList<Node>();
 
-    public void enqueue(T value, T2 priority) throws NullObjectSendedException{
-        if( value == null || priority == null) {
-            throw new NullObjectSendedException();
-        }
-
+    public void enqueue(T value, T2 priority){
         Node node = new Node(value, priority);
         list.add(node);
         up(list.size() - 1);
@@ -36,14 +32,16 @@ public class PriorityQueue<T, T2 extends Comparable> implements IPriorityQueue<T
             throw new OutOfBordersException("Queue is empty");
         }
         else {
-            swap(0,list.size());
+            swap(0,list.size() - 1);
+            T element = (T)list.get(list.size() - 1).value;
+            list.remove(list.size() - 1);
             down(0);
-            return (T)list.get(list.size()).value;
+            return element;
         }
     }
 
     public boolean isEmpty() {
-        return false;
+        return (list.isEmpty());
     }
 
     int parent(int index) {
@@ -59,7 +57,7 @@ public class PriorityQueue<T, T2 extends Comparable> implements IPriorityQueue<T
     }
 
     void up(int index) {
-        while (index != 0 && 1 == list.get(index).priority.compareTo(list.get(parent(index)))) {
+        while (index != 0 && compareListElements(index, parent(index))) {
             swap(index, parent(index));
             index = parent(index);
         }
@@ -83,14 +81,14 @@ public class PriorityQueue<T, T2 extends Comparable> implements IPriorityQueue<T
     }
 
     boolean compareListElements(int index1, int index2) {
-        return list.get(rightChild(index1)).priority.compareTo(
-                list.get(rightChild(index2)).priority) >= 0;
+        return list.get(index1).priority.compareTo(
+                list.get(index2).priority) >= 0;
     }
 
     void swap(int index1, int index2) {
         Node node = list.get(index1);
-        list.add(index1,list.get(index2));
-        list.add(index2, node);
+        list.set(index1,list.get(index2));
+        list.set(index2, node);
     }
 
 }
