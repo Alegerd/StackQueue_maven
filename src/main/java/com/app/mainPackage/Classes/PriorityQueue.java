@@ -1,5 +1,7 @@
 package com.app.mainPackage.Classes;
 
+import com.app.mainPackage.Exceptions.NullObjectSendedException;
+import com.app.mainPackage.Exceptions.OutOfBordersException;
 import com.app.mainPackage.Interfaces.IPriorityQueue;
 
 import java.util.ArrayList;
@@ -19,17 +21,25 @@ public class PriorityQueue<T, T2 extends Comparable> implements IPriorityQueue<T
 
     List<Node> list = new ArrayList<Node>();
 
-    public void enqueue(T value, T2 priority) {
+    public void enqueue(T value, T2 priority) throws NullObjectSendedException{
+        if( value == null || priority == null) {
+            throw new NullObjectSendedException();
+        }
 
-    }
-
-    public void dequeue() {
-
-    }
-
-    void addToList(T value, T2 priority) {
         Node node = new Node(value, priority);
-        list.add(list.size() - 1 , node);
+        list.add(node);
+        up(list.size() - 1);
+    }
+
+    public T dequeue() throws OutOfBordersException{
+        if (list.size() == 0) {
+            throw new OutOfBordersException("Queue is empty");
+        }
+        else {
+            swap(0,list.size());
+            down(0);
+            return (T)list.get(list.size()).value;
+        }
     }
 
     public boolean isEmpty() {
