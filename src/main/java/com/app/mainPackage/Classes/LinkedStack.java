@@ -1,5 +1,6 @@
 package com.app.mainPackage.Classes;
 
+import com.app.mainPackage.Exceptions.NullObjectSendedException;
 import com.app.mainPackage.Exceptions.OutOfBordersException;
 import com.app.mainPackage.Interfaces.IEnumerator;
 import com.app.mainPackage.Interfaces.IStack;
@@ -44,11 +45,16 @@ public class LinkedStack<T> implements IStack<T> {
         };
     }
 
-    public void push(T value) {
-        pointer+=1;
-        count++;
-        myList.add(value);
-        isEmpty = false;
+    public void push(T value) throws NullObjectSendedException{
+        if(value != null) {
+            pointer += 1;
+            count++;
+            myList.add(value);
+            isEmpty = false;
+        }
+        else {
+            throw new NullObjectSendedException("Value can't be null");
+        }
     }
 
 
@@ -58,8 +64,7 @@ public class LinkedStack<T> implements IStack<T> {
         pointer = -1;
     }
 
-    public T pop() {
-        try {
+    public T pop() throws OutOfBordersException{
             T chosenElement = null;
             if (pointer >= 0) {
                 chosenElement = myList.remove(pointer);
@@ -70,21 +75,16 @@ public class LinkedStack<T> implements IStack<T> {
             else
             {
                 isEmpty = true;
-                throw new OutOfBordersException("the list is empty");
-            }
-
-        }
-        catch(OutOfBordersException ex)
-            {
-                System.out.println(ex.getMessage());
-                return null;
+                throw new OutOfBordersException("Stack is empty");
             }
     }
 
-    public T peek() {
+    public T peek() throws OutOfBordersException{
         if(pointer >= 0) {
             return myList.get(pointer);
         }
-        return null;
+        else {
+            throw new OutOfBordersException("Stack is empty");
+        }
     }
 }

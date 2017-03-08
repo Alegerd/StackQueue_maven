@@ -1,5 +1,7 @@
 package com.app.mainPackage.Classes;
 
+import com.app.mainPackage.Exceptions.NullObjectSendedException;
+import com.app.mainPackage.Exceptions.OutOfBordersException;
 import com.app.mainPackage.Interfaces.IEnumerator;
 import com.app.mainPackage.Interfaces.IQueue;
 
@@ -33,10 +35,15 @@ public class LinkedQueue<T> implements IQueue<T>{
         };
     }
 
-    public void enqueue(T value) {
-        count++;
-        myList.add(value);
-        isEmpty = false;
+    public void enqueue(T value) throws NullObjectSendedException{
+        if(value != null) {
+            count++;
+            myList.add(value);
+            isEmpty = false;
+        }
+        else {
+            throw new NullObjectSendedException("Value can't be null");
+        }
     }
 
     public boolean isEmpty() {
@@ -47,17 +54,26 @@ public class LinkedQueue<T> implements IQueue<T>{
         myList = new ArrayList<T>();
     }
 
-    public T dequeue() {
-        T chosenElement = myList.remove(0);
-        count--;
-        if(count == 0) isEmpty = true;
-        return chosenElement;
+    public T dequeue() throws OutOfBordersException{
+        if(count == 0)
+        {
+            isEmpty = true;
+            throw new OutOfBordersException("Queue is empty");
+        }
+        else {
+            T chosenElement = myList.remove(0);
+            count--;
+
+            return chosenElement;
+        }
     }
 
-    public T peek() {
+    public T peek() throws OutOfBordersException{
         if(count != 0) {
             return myList.get(0);
         }
-        return null;
+        else {
+            throw new OutOfBordersException("Queue is empty");
+        }
     }
 }

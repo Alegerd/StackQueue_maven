@@ -1,5 +1,6 @@
 package com.app.mainPackage.Classes;
 
+import com.app.mainPackage.Exceptions.NullObjectSendedException;
 import com.app.mainPackage.Exceptions.OutOfBordersException;
 import com.app.mainPackage.Interfaces.IEnumerator;
 import com.app.mainPackage.Interfaces.IStack;
@@ -13,14 +14,7 @@ import java.util.Iterator;
 
 public class ArrayStack<T> implements IStack<T> {
 
-
-    private T array[];
-    private int pointer = -1;
-    private T element;
-
-    int count = 0;
     public boolean isEmpty = true;
-
     public Iterator<T> iterator() {
         return new Iterator<T>() {
             public void remove() {
@@ -37,6 +31,12 @@ public class ArrayStack<T> implements IStack<T> {
         };
     }
 
+    int count = 0;
+
+    private T array[];
+    private int pointer = -1;
+    private T element;
+
     public ArrayStack(T element){
         this.element = element;
         array = (T[])Array.newInstance(element.getClass(), 0);
@@ -46,12 +46,16 @@ public class ArrayStack<T> implements IStack<T> {
         return isEmpty;
     }
 
-    public void push(T value) {
-        array = resize(array,array.length + 1);//scaled length for 1 element
-        pointer+=1;
-        count++;
-        array[pointer] = value;
-        isEmpty = false;
+    public void push(T value) throws NullObjectSendedException{
+
+        if(value == null) throw new NullObjectSendedException("Value can't be null");
+        else {
+            array = resize(array, array.length + 1);//scaled length for 1 element
+            pointer += 1;
+            count++;
+            array[pointer] = value;
+            isEmpty = false;
+        }
     }
 
 
@@ -62,8 +66,7 @@ public class ArrayStack<T> implements IStack<T> {
     }
 
 
-    public T pop() {
-        try {
+    public T pop() throws OutOfBordersException {
             T chosenElement = null;
             if (pointer >= 0) {
                 chosenElement = array[pointer];
@@ -73,22 +76,17 @@ public class ArrayStack<T> implements IStack<T> {
                 return chosenElement;
             }
             else {
-                isEmpty = true;
-                throw new OutOfBordersException("the list is empty");
+                throw new OutOfBordersException("Stack is empty");
             }
-        }
-        catch (OutOfBordersException ex)
-        {
-            System.out.println(ex.getMessage());
-            return null;
-        }
     }
 
-    public T peek() {
+    public T peek() throws OutOfBordersException {
         if(pointer >= 0) {
             return array[pointer];
         }
-        return null;
+        else {
+            throw new OutOfBordersException("Stack is empty");
+        }
     }
 
     //working methods

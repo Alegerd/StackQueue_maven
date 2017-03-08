@@ -1,5 +1,6 @@
 package com.app.mainPackage.Classes;
 
+import com.app.mainPackage.Exceptions.NullObjectSendedException;
 import com.app.mainPackage.Exceptions.OutOfBordersException;
 import com.app.mainPackage.Interfaces.IEnumerator;
 import com.app.mainPackage.Interfaces.IQueue;
@@ -30,7 +31,16 @@ public class ArrayQueue<T> implements IQueue<T> {
             }
 
             public T next() {
-                return dequeue();
+                try {
+                    return dequeue();
+                }
+                catch (OutOfBordersException e)
+                {
+                    System.out.println(e.getMessage());
+                }
+                finally {
+                    return null;
+                }
             }
 
             public void remove() {
@@ -39,11 +49,16 @@ public class ArrayQueue<T> implements IQueue<T> {
         };
     }
 
-    public void enqueue(T value) {
-        array = resize(array, array.length + 1);
-        array[array.length - 1] = value;
-        count++;
-        isEmpty = false;
+    public void enqueue(T value) throws NullObjectSendedException{
+        if(value != null) {
+            array = resize(array, array.length + 1);
+            array[array.length - 1] = value;
+            count++;
+            isEmpty = false;
+        }
+        else {
+            throw new NullObjectSendedException("Value can't be null");
+        }
     }
 
     public boolean isEmpty() {
@@ -55,19 +70,18 @@ public class ArrayQueue<T> implements IQueue<T> {
         isEmpty = true;
     }
 
-    public T dequeue() {
-        T chosenElement = array[0];
-        try {
+    public T dequeue() throws OutOfBordersException{
+        if (count == 0) {
+            isEmpty = true;
+            throw new OutOfBordersException("Queue is empty");
+        }
+        else {
+            T chosenElement = array[0];
             array = remove(array);
             count--;
-            if (count == 0) {
-                isEmpty = true;
-                throw new OutOfBordersException("Queue is empty");
-            }
-        } catch (OutOfBordersException ex) {
-            System.out.println(ex.getMessage());
+
+            return chosenElement;
         }
-        return chosenElement;
     }
 
     public T peek() throws OutOfBordersException {

@@ -1,5 +1,6 @@
 package com.app.mainPackage.Interfaces;
 
+import com.app.mainPackage.Exceptions.NullObjectSendedException;
 import com.app.mainPackage.Exceptions.OutOfBordersException;
 
 /**
@@ -7,9 +8,9 @@ import com.app.mainPackage.Exceptions.OutOfBordersException;
  */
 public interface IQueue<T> extends Iterable<T>{
     //methods
-    void enqueue(T value);
+    void enqueue(T value) throws NullObjectSendedException;
     void clear();
     boolean isEmpty();
-    T dequeue();
+    T dequeue() throws OutOfBordersException;
     T peek() throws OutOfBordersException;
 }
