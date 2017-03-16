@@ -7,6 +7,7 @@ import com.app.mainPackage.Interfaces.IStack;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class LinkedStack<T> implements IStack<T> {
 
-    private List<T> myList = new ArrayList<T>();
+    private List<T> myList = new LinkedList<T>();
     private int pointer = -1;
 
     int count = 0;
@@ -59,7 +60,7 @@ public class LinkedStack<T> implements IStack<T> {
 
 
     public void clear() {
-        myList = new ArrayList<T>();
+        myList = new LinkedList<T>();
         isEmpty = true;
         pointer = -1;
     }
@@ -70,6 +71,7 @@ public class LinkedStack<T> implements IStack<T> {
                 chosenElement = myList.remove(pointer);
                 pointer--;
                 count--;
+                isEmpty = (count == 0)?  true: false;
                 return chosenElement;
             }
             else

@@ -7,6 +7,7 @@ import com.app.mainPackage.Interfaces.IQueue;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ import java.util.List;
  */
 public class LinkedQueue<T> implements IQueue<T>{
 
-    private List<T> myList = new ArrayList<T>();
+    private List<T> myList = new LinkedList<T>();
 
     int count = 0;
     public boolean isEmpty = true;
@@ -51,7 +52,7 @@ public class LinkedQueue<T> implements IQueue<T>{
     }
 
     public void clear() {
-        myList = new ArrayList<T>();
+        myList = new LinkedList<T>();
     }
 
     public T dequeue() throws OutOfBordersException{
@@ -63,6 +64,7 @@ public class LinkedQueue<T> implements IQueue<T>{
         else {
             T chosenElement = myList.remove(0);
             count--;
+            isEmpty = (count == 0)?  true: false;
 
             return chosenElement;
         }

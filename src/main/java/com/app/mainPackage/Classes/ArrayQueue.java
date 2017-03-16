@@ -17,11 +17,11 @@ public class ArrayQueue<T> implements IQueue<T> {
     public boolean isEmpty = true;
 
     private T array[];
-    private T element;
+    Class element;
 
-    public ArrayQueue(T element) {
+    public ArrayQueue(Class element) {
         this.element = element;
-        array = (T[]) Array.newInstance(element.getClass(), 0);
+        array = (T[]) Array.newInstance(element, 0);
     }
 
     public Iterator<T> iterator() {
@@ -66,7 +66,7 @@ public class ArrayQueue<T> implements IQueue<T> {
     }
 
     public void clear() {
-        array = (T[]) Array.newInstance(element.getClass(), 0);
+        array = (T[]) Array.newInstance(element, 0);
         isEmpty = true;
     }
 
@@ -79,7 +79,7 @@ public class ArrayQueue<T> implements IQueue<T> {
             T chosenElement = array[0];
             array = remove(array);
             count--;
-
+            isEmpty = (count == 0)?  true: false;
             return chosenElement;
         }
     }

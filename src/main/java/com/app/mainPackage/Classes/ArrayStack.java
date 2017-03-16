@@ -35,11 +35,11 @@ public class ArrayStack<T> implements IStack<T> {
 
     private T array[];
     private int pointer = -1;
-    private T element;
+    private Class element;
 
-    public ArrayStack(T element){
+    public ArrayStack(Class element){
         this.element = element;
-        array = (T[])Array.newInstance(element.getClass(), 0);
+        array = (T[])Array.newInstance(element, 0);
     }
 
     public boolean isEmpty() {
@@ -60,7 +60,7 @@ public class ArrayStack<T> implements IStack<T> {
 
 
     public void clear() {
-        array = (T[])Array.newInstance(element.getClass(),0);
+        array = (T[])Array.newInstance(element,0);
         isEmpty = true;
         pointer = -1;
     }
@@ -73,9 +73,11 @@ public class ArrayStack<T> implements IStack<T> {
                 array = remove(array);
                 pointer--;
                 count--;
+                isEmpty = (count == 0)?  true: false;
                 return chosenElement;
             }
             else {
+                isEmpty = true;
                 throw new OutOfBordersException("Stack is empty");
             }
     }
